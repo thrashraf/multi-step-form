@@ -3,7 +3,7 @@ import ButtonStep from "../button/ButtonStep"
 const Navbar = () => {
 
   return (
-    <div className="flex w-full h-screen">
+    <div className="flex w-full lg:h-screen">
       <div className="bg-navbar-bg-mobile flex w-full h-36 bg-no-repeat bg-cover lg:hidden justify-center items-center gap-8">
         {Array.from(Array(4).keys()).map((step) => (
           <ButtonStep
