@@ -1,15 +1,14 @@
 import ButtonStep from "../button/ButtonStep"
 
 const Navbar = () => {
-
   return (
-    <div className="flex w-full lg:h-screen">
+    <div className="flex  lg:h-screen">
       <div className="bg-navbar-bg-mobile flex w-full h-36 bg-no-repeat bg-cover lg:hidden justify-center items-center gap-8">
         {Array.from(Array(4).keys()).map((step) => (
           <ButtonStep
             step={step + 1}
             currentStep={1}
-            setStep={() => { }}
+            setStep={() => {}}
             key={step}
           />
         ))}
@@ -22,7 +21,7 @@ const Navbar = () => {
                 <ButtonStep
                   step={step + 1}
                   currentStep={1}
-                  setStep={() => { }}
+                  setStep={() => {}}
                   key={step}
                 />
               </div>
@@ -38,11 +37,6 @@ const Navbar = () => {
   )
 }
 
-const steps = [
-  'YOUR INFO',
-  'SELECT PLAN',
-  'ADD ONS',
-  'SUMMARY'
-]
+const steps = ["YOUR INFO", "SELECT PLAN", "ADD ONS", "SUMMARY"]
 
 export default Navbar

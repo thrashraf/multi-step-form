@@ -25,9 +25,9 @@ const Content = (props: Props) => {
   ]
 
   return (
-    <div className="relative h-min">
-      <div className="left-2 right-2 flex -top-5 absolute bg-white mx-4 lg:hidden rounded-xl py-7 px-3">
-        <div className="flex flex-col gap-2 text-start">
+    <div className="relative lg:w-full lg:h-screen">
+      <div className="left-2 right-2 flex -top-5 absolute bg-white mx-4 rounded-xl py-7 px-3 lg:block lg:w-full lg:h-full">
+        <div className="flex flex-col gap-2 text-start w-full h-full m-auto justify-center">
           <h1 className="font-bold text-xl">{forms[props.step].title}</h1>
           <h3 className="text-lg text-slate-400">
             {forms[props.step].description}
