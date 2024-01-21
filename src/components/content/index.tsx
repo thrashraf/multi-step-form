@@ -1,3 +1,4 @@
+import AddOns from "./form/addOns"
 import PersonalInfo from "./form/personalInfo"
 import SelectYourPlan from "./form/selectYourPlan"
 
@@ -35,7 +36,8 @@ const Content = (props: Props) => {
           </h3>
           <div className="mt-5">
             {/* <PersonalInfo /> */}
-            <SelectYourPlan />
+            {/* <SelectYourPlan /> */}
+            <AddOns />
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ function App() {
     <FormContext.Provider value={formMethods}>
       <div className="h-screen relative bg-slate-200 lg:bg-white lg:flex">
         <Navbar />
-        <Content step={1} />
+        <Content step={2} />
         <Footer />
       </div>
     </FormContext.Provider>
