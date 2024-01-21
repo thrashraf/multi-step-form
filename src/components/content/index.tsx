@@ -1,4 +1,5 @@
 import PersonalInfo from "./form/personalInfo"
+import SelectYourPlan from "./form/selectYourPlan"
 
 type Props = {
   step: number
@@ -33,7 +34,8 @@ const Content = (props: Props) => {
             {forms[props.step].description}
           </h3>
           <div className="mt-5">
-            <PersonalInfo />
+            {/* <PersonalInfo /> */}
+            <SelectYourPlan />
           </div>
         </div>
       </div>
