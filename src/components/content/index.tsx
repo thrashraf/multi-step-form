@@ -26,6 +26,13 @@ const Content = (props: Props) => {
     },
   ]
 
+  const component = [
+    <PersonalInfo />,
+    <SelectYourPlan />,
+    <AddOns />,
+    <div></div>,
+  ]
+
   return (
     <div className="relative lg:w-full lg:h-screen">
       <div className="left-2 right-2 flex -top-5 absolute bg-white mx-4 rounded-xl py-7 px-3 lg:block lg:w-full lg:h-full">
@@ -34,11 +41,7 @@ const Content = (props: Props) => {
           <h3 className="text-lg text-slate-400">
             {forms[props.step].description}
           </h3>
-          <div className="mt-5">
-            {/* <PersonalInfo /> */}
-            {/* <SelectYourPlan /> */}
-            <AddOns />
-          </div>
+          <div className="mt-5">{component[props.step]}</div>
         </div>
       </div>
     </div>

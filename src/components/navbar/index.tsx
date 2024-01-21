@@ -1,14 +1,18 @@
 import ButtonStep from "../button/ButtonStep"
 
-const Navbar = () => {
+type Props = {
+  step: number
+  setStep: (step: number) => void
+}
+const Navbar = (props: Props) => {
   return (
     <div className="flex  lg:h-screen">
       <div className="bg-navbar-bg-mobile flex w-full h-36 bg-no-repeat bg-cover lg:hidden justify-center items-center gap-8">
         {Array.from(Array(4).keys()).map((step) => (
           <ButtonStep
             step={step + 1}
-            currentStep={1}
-            setStep={() => {}}
+            currentStep={props.step}
+            setStep={props.setStep}
             key={step}
           />
         ))}
