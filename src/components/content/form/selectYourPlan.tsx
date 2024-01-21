@@ -1,7 +1,10 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { FormContext } from "../../../formContext"
 
 const SelectYourPlan = () => {
+  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">(
+    "monthly"
+  )
   const formContext = useContext(FormContext)
 
   if (!formContext) {
@@ -16,19 +19,28 @@ const SelectYourPlan = () => {
   const plans = [
     {
       title: "Arcade",
-      price: "$90/yr",
+      price: {
+        monthly: "$9/mo",
+        yearly: "$90/yr",
+      },
       discount: "2 months free",
       icon: "/assets/images/icon-arcade.svg",
     },
     {
       title: "Advance",
-      price: "$120/yr",
+      price: {
+        monthly: "$12/mo",
+        yearly: "$120/yr",
+      },
       discount: "2 months free",
       icon: "/assets/images/icon-advanced.svg",
     },
     {
       title: "Pro",
-      price: "$150/yr",
+      price: {
+        monthly: "$15/mo",
+        yearly: "$150/yr",
+      },
       discount: "2 months free",
       icon: "/assets/images/icon-pro.svg",
     },
@@ -44,7 +56,9 @@ const SelectYourPlan = () => {
             <img src={plan.icon} alt="plan" width={40} height={40} />
             <div className="flex flex-col gap-2">
               <h1 className="font-bold">{plan.title}</h1>
-              <h3 className="font-semibold text-gray-400">{plan.price}</h3>
+              <h3 className="font-semibold text-gray-400">
+                {plan.price[selectedPlan]}
+              </h3>
               <p className="text-sm">{plan.discount}</p>
             </div>
           </div>
@@ -58,12 +72,24 @@ const SelectYourPlan = () => {
           type="checkbox"
           id="terms"
           {...register("terms", { required: true })}
-          className="hidden" // Hide the actual checkbox
+          className="hidden"
+          onChange={(e) => {
+            setSelectedPlan(e.target.checked ? "yearly" : "monthly")
+          }}
         />
         <label
           htmlFor="terms"
-          className="ml-2 cursor-pointer relative inline-block w-8 h-4 bg-gray-400 rounded-full">
-          <span className="checkbox-mark absolute left-0 top-0 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out transform translate-x-0"></span>
+          className={`ml-2 cursor-pointer relative inline-block w-8 h-4 rounded-full ${
+            selectedPlan === "yearly" ? "bg-blue-400" : "bg-gray-400"
+          }`}>
+          <span
+            className="checkbox-mark absolute left-0 top-0 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out"
+            style={{
+              transform:
+                selectedPlan === "yearly"
+                  ? "translateX(100%)"
+                  : "translateX(0)",
+            }}></span>
         </label>
         <label htmlFor="terms" className="ml-2">
           <span className="text-blue-800 font-semibold">Yearly</span>
