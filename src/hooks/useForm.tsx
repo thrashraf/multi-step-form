@@ -1,10 +1,17 @@
 import { atom, useAtom } from "jotai"
 
+export type Plan = {
+  title: string
+  price: string
+  discount: string
+  icon: string
+}
+
 type FormValues = {
   name: string
   email: string
   phoneNumber: string
-  plan: string[]
+  plan: Plan | null
   addOns: string[]
 }
 
@@ -12,7 +19,7 @@ const formAtom = atom<FormValues>({
   name: "",
   email: "",
   phoneNumber: "",
-  plan: [],
+  plan: null,
   addOns: [],
 })
 const stepAtom = atom<number>(0)

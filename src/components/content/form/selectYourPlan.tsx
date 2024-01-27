@@ -1,6 +1,13 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import Footer from "../../Footer"
+import { useForm, Controller, SubmitHandler } from "react-hook-form"
+import { Plan } from "../../../hooks/useForm"
+import Error from "../../error"
+import useFormJotai from "../../../hooks/useForm"
 
+type IPlan = {
+  plan: Plan
+}
 const SelectYourPlan = () => {
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">(
     "monthly"
@@ -36,23 +43,54 @@ const SelectYourPlan = () => {
     },
   ]
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IPlan>()
+
+  const { handleSubmit: handleSubmitForm, form } = useFormJotai()
+
+  const onFinish: SubmitHandler<IPlan> = (data: IPlan) => {
+    return handleSubmitForm({
+      ...form,
+      plan: data?.plan,
+    })
+  }
+
+  const [selectedBox, setSelectedBox] = useState<number | null>(null)
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onFinish)}>
       <div className="flex flex-col gap-4">
         {plans.map((plan, index) => (
-          <div
-            className="flex gap-5 pl-5 p-2 rounded-xl hover:border-purple-500 hover:border"
-            key={index}>
-            <img src={plan.icon} alt="plan" width={40} height={40} />
-            <div className="flex flex-col gap-2">
-              <h1 className="font-bold">{plan.title}</h1>
-              <h3 className="font-semibold text-gray-400">
-                {plan.price[selectedPlan]}
-              </h3>
-              <p className="text-sm">{plan.discount}</p>
-            </div>
-          </div>
+          <Controller
+            control={control}
+            name={`plan`}
+            rules={{ required: "A plan is required" }}
+            render={({ field }) => (
+              <div
+                className={`flex gap-5 pl-5 p-2 rounded-xl hover:border-purple-500 hover:border ${
+                  selectedBox === index && "border-purple-500 border-2"
+                }`}
+                key={index}
+                onClick={() => {
+                  setSelectedBox(index)
+                  field.onChange(plan)
+                }}>
+                <img src={plan.icon} alt="plan" width={40} height={40} />
+                <div className="flex flex-col gap-2">
+                  <h1 className="font-bold">{plan.title}</h1>
+                  <h3 className="font-semibold text-gray-400">
+                    {plan.price[selectedPlan]}
+                  </h3>
+                  <p className="text-sm">{plan.discount}</p>
+                </div>
+              </div>
+            )}
+          />
         ))}
+        {errors.plan && <Error />}
       </div>
       <div className="mt-8 flex justify-center items-center gap-5 bg-blue-50 rounded-xl mx-5 p-1">
         <label htmlFor="terms" className="ml-2">
