@@ -1,30 +1,44 @@
-import React, { useContext } from "react"
-import { FormContext } from "../../../formContext"
+import useFormJotai from "../../../hooks/useForm"
+import Footer from "../../Footer"
+import { SubmitHandler, useForm } from "react-hook-form"
+import Error from "../../error"
+
+type IPersonalInfo = {
+  name: string
+  email: string
+  phoneNumber: string
+}
 
 const PersonalInfo = () => {
-  const formContext = useContext(FormContext)
-
-  if (!formContext) {
-    return null
-  }
-
   const {
     register,
     formState: { errors },
-  } = formContext
+    handleSubmit,
+  } = useForm<IPersonalInfo>()
+
+  const { handleSubmit: handleSubmitForm, form } = useFormJotai()
+
+  const onFinish: SubmitHandler<IPersonalInfo> = (data: IPersonalInfo) => {
+    return handleSubmitForm({
+      ...form,
+      name: data?.name,
+      email: data.email,
+      phoneNumber: data?.phoneNumber,
+    })
+  }
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(onFinish)}>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName">First Name</label>
           <input
             type="text"
-            id="firstName"
-            className="personal-input"
-            {...register("firstName", { required: true })}
+            id="name"
+            className="personal-input active:bg-white"
+            {...register("name", { required: true })}
           />
-          {errors.firstName && <span>This field is required</span>}
+          {errors.name && <Error />}
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Email</label>
@@ -34,19 +48,21 @@ const PersonalInfo = () => {
             className="personal-input"
             {...register("email", { required: true })}
           />
-          {errors.email && <span>This field is required</span>}
+          {errors.email && <Error />}
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="phoneNumber">Phone Number</label>
           <input
-            type="text"
+            type="number"
             id="phoneNumber"
             className="personal-input"
             {...register("phoneNumber", { required: true })}
           />
-          {errors.phoneNumber && <span>This field is required</span>}
+          {errors.phoneNumber && <Error />}
         </div>
       </div>
+
+      <Footer />
     </form>
   )
 }

@@ -1,18 +1,6 @@
-import React, { useContext } from "react"
-import { FormContext } from "../../../formContext"
+import React from "react"
 
 const AddOns = () => {
-  const formContext = useContext(FormContext)
-
-  if (!formContext) {
-    return null
-  }
-
-  const {
-    register,
-    formState: { errors },
-  } = formContext
-
   const plans = [
     {
       title: "Online service",
@@ -41,7 +29,6 @@ const AddOns = () => {
             <input
               type="checkbox"
               id={plan.title}
-              {...register("addOns", { required: true })}
               className="p-2 rounded-xl checked:bg-blue-800 bg-white"
             />
             <div className="flex flex-col gap-1 max-w-[200px]">

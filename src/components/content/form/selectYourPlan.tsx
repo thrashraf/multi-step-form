@@ -1,20 +1,10 @@
-import React, { useContext, useState } from "react"
-import { FormContext } from "../../../formContext"
+import React, { useState } from "react"
+import Footer from "../../Footer"
 
 const SelectYourPlan = () => {
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">(
     "monthly"
   )
-  const formContext = useContext(FormContext)
-
-  if (!formContext) {
-    return null
-  }
-
-  const {
-    register,
-    formState: { errors },
-  } = formContext
 
   const plans = [
     {
@@ -71,7 +61,6 @@ const SelectYourPlan = () => {
         <input
           type="checkbox"
           id="terms"
-          {...register("terms", { required: true })}
           className="hidden"
           onChange={(e) => {
             setSelectedPlan(e.target.checked ? "yearly" : "monthly")
@@ -95,6 +84,7 @@ const SelectYourPlan = () => {
           <span className="text-blue-800 font-semibold">Yearly</span>
         </label>
       </div>
+      <Footer />
     </form>
   )
 }
