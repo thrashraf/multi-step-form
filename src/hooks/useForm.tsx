@@ -7,12 +7,18 @@ export type Plan = {
   icon: string
 }
 
+export type AddOn = {
+  title: string
+  description: string
+  price: string
+}
+
 type FormValues = {
   name: string
   email: string
   phoneNumber: string
   plan: Plan | null
-  addOns: string[]
+  addOns: AddOn | null
 }
 
 const formAtom = atom<FormValues>({
@@ -20,7 +26,7 @@ const formAtom = atom<FormValues>({
   email: "",
   phoneNumber: "",
   plan: null,
-  addOns: [],
+  addOns: null,
 })
 const stepAtom = atom<number>(0)
 

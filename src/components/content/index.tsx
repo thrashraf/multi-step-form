@@ -4,7 +4,9 @@ import PersonalInfo from "./form/personalInfo"
 import SelectYourPlan from "./form/selectYourPlan"
 
 const Content = () => {
-  const { step } = useFormJotai()
+  const { step, form } = useFormJotai()
+
+  console.log(form, "form")
 
   const forms = [
     {
