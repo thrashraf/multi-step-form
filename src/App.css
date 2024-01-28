@@ -3,3 +3,8 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.content-custom-height {
+  height: calc(100vh - 9rem);
+  /* Assuming 36 is in rem and 1rem = 4 units */
+}

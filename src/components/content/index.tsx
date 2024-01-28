@@ -1,12 +1,27 @@
-import useFormJotai from "../../hooks/useForm"
+import { SubmitHandler, useForm } from "react-hook-form"
+import useFormJotai, { FormValues } from "../../hooks/useForm"
 import AddOns from "./form/addOns"
 import PersonalInfo from "./form/personalInfo"
 import SelectYourPlan from "./form/selectYourPlan"
+import Footer from "../Footer"
 
 const Content = () => {
-  const { step, form } = useFormJotai()
+  const { step } = useFormJotai()
 
-  console.log(form, "form")
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormValues>()
+
+  const { handleSubmit: handleSubmitForm, form } = useFormJotai()
+
+  const onFinish: SubmitHandler<FormValues> = (data: FormValues) => {
+    return handleSubmitForm({
+      ...form,
+      ...data,
+    })
+  }
 
   const forms = [
     {
@@ -28,14 +43,16 @@ const Content = () => {
   ]
 
   const component = [
-    <PersonalInfo />,
+    <PersonalInfo errors={errors} register={register} />,
     <SelectYourPlan />,
     <AddOns />,
     <div></div>,
   ]
 
   return (
-    <div className="relative lg:w-full lg:h-screen">
+    <form
+      className="relative lg:w-full lg:h-screen flex content-custom-height"
+      onSubmit={handleSubmit(onFinish)}>
       <div className="left-2 right-2 flex -top-5 absolute bg-white mx-4 rounded-xl py-7 px-3 lg:block lg:w-full lg:h-full">
         <div className="flex flex-col gap-2 text-start w-full h-full m-auto justify-center">
           <h1 className="font-bold text-xl">{forms[step].title}</h1>
@@ -43,7 +60,8 @@ const Content = () => {
           <div className="mt-5">{component[step]}</div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </form>
   )
 }
 

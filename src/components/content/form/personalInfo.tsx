@@ -1,34 +1,15 @@
-import useFormJotai from "../../../hooks/useForm"
-import Footer from "../../Footer"
-import { SubmitHandler, useForm } from "react-hook-form"
+import { FieldErrors, UseFormRegister } from "react-hook-form"
 import Error from "../../error"
+import { FormValues } from "../../../hooks/useForm"
 
-type IPersonalInfo = {
-  name: string
-  email: string
-  phoneNumber: string
+type Props = {
+  register: UseFormRegister<FormValues>
+  errors: FieldErrors
 }
 
-const PersonalInfo = () => {
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<IPersonalInfo>()
-
-  const { handleSubmit: handleSubmitForm, form } = useFormJotai()
-
-  const onFinish: SubmitHandler<IPersonalInfo> = (data: IPersonalInfo) => {
-    return handleSubmitForm({
-      ...form,
-      name: data?.name,
-      email: data.email,
-      phoneNumber: data?.phoneNumber,
-    })
-  }
-
+const PersonalInfo = (props: Props) => {
   return (
-    <form onSubmit={handleSubmit(onFinish)}>
+    <div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName">First Name</label>
@@ -36,9 +17,9 @@ const PersonalInfo = () => {
             type="text"
             id="name"
             className="personal-input active:bg-white"
-            {...register("name", { required: true })}
+            {...props.register("name", { required: true })}
           />
-          {errors.name && <Error />}
+          {props.errors.name && <Error />}
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Email</label>
@@ -46,9 +27,9 @@ const PersonalInfo = () => {
             type="text"
             id="email"
             className="personal-input"
-            {...register("email", { required: true })}
+            {...props.register("email", { required: true })}
           />
-          {errors.email && <Error />}
+          {props.errors.email && <Error />}
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="phoneNumber">Phone Number</label>
@@ -56,14 +37,12 @@ const PersonalInfo = () => {
             type="number"
             id="phoneNumber"
             className="personal-input"
-            {...register("phoneNumber", { required: true })}
+            {...props.register("phoneNumber", { required: true })}
           />
-          {errors.phoneNumber && <Error />}
+          {props.errors.phoneNumber && <Error />}
         </div>
       </div>
-
-      <Footer />
-    </form>
+    </div>
   )
 }
 

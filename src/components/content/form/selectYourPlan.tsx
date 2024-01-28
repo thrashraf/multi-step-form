@@ -1,14 +1,14 @@
 import { useState } from "react"
-import Footer from "../../Footer"
-import { useForm, Controller, SubmitHandler } from "react-hook-form"
-import { Plan } from "../../../hooks/useForm"
+import { FieldErrors, Control, Controller } from "react-hook-form"
 import Error from "../../error"
-import useFormJotai from "../../../hooks/useForm"
+import { FormValues } from "../../../hooks/useForm"
 
-type IPlan = {
-  plan: Plan
+type Props = {
+  control: Control<FormValues>
+  errors: FieldErrors
 }
-const SelectYourPlan = () => {
+
+const SelectYourPlan = (props: Props) => {
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">(
     "monthly"
   )
@@ -43,29 +43,14 @@ const SelectYourPlan = () => {
     },
   ]
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IPlan>()
-
-  const { handleSubmit: handleSubmitForm, form } = useFormJotai()
-
-  const onFinish: SubmitHandler<IPlan> = (data: IPlan) => {
-    return handleSubmitForm({
-      ...form,
-      plan: data?.plan,
-    })
-  }
-
   const [selectedBox, setSelectedBox] = useState<number | null>(null)
 
   return (
-    <form onSubmit={handleSubmit(onFinish)}>
+    <>
       <div className="flex flex-col gap-4">
         {plans.map((plan, index) => (
           <Controller
-            control={control}
+            control={props.control}
             name={`plan`}
             rules={{ required: "A plan is required" }}
             render={({ field }) => (
@@ -90,7 +75,7 @@ const SelectYourPlan = () => {
             )}
           />
         ))}
-        {errors.plan && <Error />}
+        {props.errors.plan && <Error />}
       </div>
       <div className="mt-8 flex justify-center items-center gap-5 bg-blue-50 rounded-xl mx-5 p-1">
         <label htmlFor="terms" className="ml-2">
@@ -122,8 +107,7 @@ const SelectYourPlan = () => {
           <span className="text-blue-800 font-semibold">Yearly</span>
         </label>
       </div>
-      <Footer />
-    </form>
+    </>
   )
 }
 

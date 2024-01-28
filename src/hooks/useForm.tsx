@@ -13,12 +13,12 @@ export type AddOn = {
   price: string
 }
 
-type FormValues = {
+export type FormValues = {
   name: string
   email: string
   phoneNumber: string
-  plan: Plan | null
-  addOns: AddOn | null
+  plan: Plan[] | null
+  addOns: AddOn[] | null
 }
 
 const formAtom = atom<FormValues>({
@@ -63,11 +63,16 @@ const useFormJotaiJotai = () => {
     updateFormAndStep(values)
   }
 
+  const goBack = () => {
+    setStep(step - 1)
+  }
+
   return {
     form,
     step,
     setStep,
     handleSubmit,
+    goBack,
   }
 }
 

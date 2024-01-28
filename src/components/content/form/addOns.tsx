@@ -1,13 +1,15 @@
 import { useState } from "react"
 import Footer from "../../Footer"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { Control, Controller, FieldErrors } from "react-hook-form"
 import Error from "../../error"
-import useFormJotai, { AddOn } from "../../../hooks/useForm"
+import { FormValues } from "../../../hooks/useForm"
 
-type IAddOns = {
-  data: AddOn
+type Props = {
+  control: Control<FormValues>
+  errors: FieldErrors
 }
-const AddOns = () => {
+
+const AddOns = (props: Props) => {
   const plans = [
     {
       title: "Online service",
@@ -27,28 +29,14 @@ const AddOns = () => {
   ]
 
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null)
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IAddOns>()
-
-  const { handleSubmit: handleSubmitForm, form } = useFormJotai()
-
-  const onFinish: SubmitHandler<IAddOns> = (data: IAddOns) => {
-    return handleSubmitForm({
-      ...form,
-      addOns: data?.data,
-    })
-  }
 
   return (
-    <form onSubmit={handleSubmit(onFinish)}>
+    <>
       <div className="flex flex-col gap-4">
         {plans.map((plan, index) => (
           <Controller
-            control={control}
-            name="data"
+            control={props.control}
+            name="addOns"
             rules={{ required: "A plan is required" }}
             render={({ field }) => (
               <div
@@ -80,10 +68,10 @@ const AddOns = () => {
             )}
           />
         ))}
-        {errors.data && <Error />}
+        {props.errors.addOns && <Error />}
         <Footer />
       </div>
-    </form>
+    </>
   )
 }
 
